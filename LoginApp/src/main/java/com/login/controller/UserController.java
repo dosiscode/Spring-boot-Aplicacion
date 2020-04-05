@@ -9,6 +9,7 @@ import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import com.login.model.User;
@@ -66,6 +67,54 @@ public class UserController {
 		
 	}
 	
+	@GetMapping("/editUser/{id}")
+	public String getEditUserForm(Model modelo, @PathVariable(name="id")Long id) throws Exception{
+		
+		User userToEdit = userService.getUserById(id);
+		
+		modelo.addAttribute("userForm", userToEdit);
+		modelo.addAttribute("userList", userService.getAllUsers());
+		modelo.addAttribute("roles", roleRepository.findAll());
+		modelo.addAttribute("formTab", "active");
+		modelo.addAttribute("editMode", "true");
+		
+		return "user-form/user-view";
+	}
 	
+	@PostMapping("/editUser")
+	public String postEditUserForm(@Valid @ModelAttribute("userForm")User user, 
+			BindingResult result, ModelMap modelo) {
+				
+		if (result.hasErrors()) {
+			modelo.addAttribute("userForm", user);
+			modelo.addAttribute("formTab", "active");
+			modelo.addAttribute("editMode", "true");
+		}else {
+			try {
+				userService.updateUser(user);
+				modelo.addAttribute("userForm", new User());
+				modelo.addAttribute("listTab", "active");
+				modelo.addAttribute("editMode", "false");
+			} catch (Exception e) {
+				modelo.addAttribute("formErrorMessage", e.getMessage());
+				modelo.addAttribute("userForm", user);
+				modelo.addAttribute("formTab", "active");
+				modelo.addAttribute("userList", userService.getAllUsers());
+				modelo.addAttribute("roles", roleRepository.findAll());
+				modelo.addAttribute("editMode", "true");
+			}
+		}
+		
+		modelo.addAttribute("userList", userService.getAllUsers());
+		modelo.addAttribute("roles", roleRepository.findAll());
+		
+		return "user-form/user-view";
+		
+	}
+	
+	@GetMapping("/userForm/cancel")
+	public String cancelEditUser(ModelMap modelo) {
+		return "redirect:/userForm";
+	}
 	
 }

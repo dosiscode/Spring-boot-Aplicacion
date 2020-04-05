@@ -24,7 +24,7 @@ public class User implements Serializable{
 	
 	@Column
 	@NotBlank
-	@Size(min=5, max=8, message="Tamaño minimo 5 maximo 8")
+	//@Size(min=5, max=8, message="Tamaño minimo 5 maximo 8")
 	private String firstname1;
 	@Column
 	@NotBlank
@@ -40,7 +40,6 @@ public class User implements Serializable{
 	private String password;
 	
 	@Transient
-	@NotBlank
 	private String confirmPassword;
 	
 	@ManyToMany(fetch = FetchType.LAZY)
