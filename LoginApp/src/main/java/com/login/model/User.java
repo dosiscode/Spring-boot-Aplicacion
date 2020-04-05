@@ -4,6 +4,8 @@ import java.io.Serializable;
 import java.util.Set;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 
 import org.hibernate.annotations.GenericGenerator;
 
@@ -21,17 +23,24 @@ public class User implements Serializable{
 	private Long id;
 	
 	@Column
+	@NotBlank
+	@Size(min=5, max=8, message="Tamaño minimo 5 maximo 8")
 	private String firstname1;
 	@Column
+	@NotBlank
 	private String lastname;
 	@Column
+	@NotBlank
 	private String email;
 	@Column
+	@NotBlank
 	private String username;
 	@Column
+	@NotBlank
 	private String password;
 	
 	@Transient
+	@NotBlank
 	private String confirmPassword;
 	
 	@ManyToMany(fetch = FetchType.LAZY)
