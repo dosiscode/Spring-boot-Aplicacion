@@ -3,6 +3,7 @@ package com.login.service;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
 import com.login.dto.ChangePasswordForm;
@@ -64,6 +65,7 @@ public class UserServiceImpl implements UserService {
 
 
 	@Override
+	@PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_USER')")
 	public User updateUser(User fromUser) throws Exception {
 	
 		User toUser = getUserById(fromUser.getId());

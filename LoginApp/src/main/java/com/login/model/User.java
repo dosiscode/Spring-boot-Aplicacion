@@ -5,7 +5,6 @@ import java.util.Set;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Size;
 
 import org.hibernate.annotations.GenericGenerator;
 
@@ -24,7 +23,6 @@ public class User implements Serializable{
 	
 	@Column
 	@NotBlank
-	//@Size(min=5, max=8, message="Tamaño minimo 5 maximo 8")
 	private String firstname1;
 	@Column
 	@NotBlank
